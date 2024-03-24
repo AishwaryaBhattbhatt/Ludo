@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Unity and p5.js Integration</title>
+    <!-- Add p5.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+
+<body>
+    <!-- Div for Unity WebGL -->
+    <div id="unityContainer" style="width: 960px; height: 600px;"></div>
+
+    <!-- Div for p5.js Sketch -->
+    <div id="p5Container"></div>
+
+    <!-- Include Unity WebGL Scripts -->
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+        var unityInstance = UnityLoader.instantiate("unityContainer", "Build/BuildName.json");
+    </script>
+
+    <!-- p5.js Sketch -->
+    <script>
+        function setup() {
+            createCanvas(400, 400).parent('p5Container');
+        }
+
+        function draw() {
+            background(220);
+            ellipse(mouseX, mouseY, 50, 50);
+        }
+    </script>
+</body>
+
+</html>
