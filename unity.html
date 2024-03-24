@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    
     <title>Unity and p5.js Integration</title>
     <!-- Add p5.js library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
@@ -12,10 +13,10 @@
     <div id="unityContainer" style="width: 960px; height: 600px;"></div>
 
     <!-- Div for p5.js Sketch -->
-    <div id="p5Container"></div>
+    <div id="p5.js"></div>
 
     <!-- Include Unity WebGL Scripts -->
-    <script src="Build/UnityLoader.js"></script>
+    <script src="index.html"></script>
     <script>
         var unityInstance = UnityLoader.instantiate("unityContainer", "Build/BuildName.json");
     </script>
