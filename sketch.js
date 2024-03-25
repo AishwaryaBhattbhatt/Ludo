@@ -35,7 +35,7 @@ let w;
 let h;
 
 function setup() {
-  var canvas = createCanvas(640, 480);
+  var canvas = createCanvas(960, 600);
   canvas.parent('p5Container');
   // Create the video
 
