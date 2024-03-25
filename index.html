@@ -9,11 +9,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
     <style>
       #p5Container {
-        width: 960px;
-        height: 600px;
-        margin-top: 20px; /* Adds space between the Unity and p5.js canvases */
+          width: 960px;
+          height: 600px;
+          margin-top: 20px; /* Adds space between the Unity and p5.js canvases */
+          border: 1px solid black; /* Temporarily added for visibility */
       }
-    </style>
+      /* Ensure Unity canvas has its own space */
+      #unity-container {
+          width: 960px;
+          height: 600px;
+      }
+   </style>
     
 
 
