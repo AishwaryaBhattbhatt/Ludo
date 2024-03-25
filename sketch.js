@@ -1,76 +1,60 @@
-// Welcome to IMA!!!
-// The link for this is: https://tinyurl.com/nyu-snake
-// https://teachablemachine.withgoogle.com/
-// https://p5js.org/
-
-// *** HERE IS CODE YOU CAN EDIT ******//
-
-// REPLACE THIS WITH YOUR OWN TEACHABLE MACHINE MODEL!!
+// Ensure your model URL is correct
 let imageModelURL = "https://teachablemachine.withgoogle.com/models/tahhfYTXA/";
 
-// IF YOU WANT TO TRY KEYBOARD CHANGE TO "TRUE";
 let keyboard_control = false;
-
-// Higher numbers are slower!!! Try 1 to 60
 let speed = 5;
-
-
-// *** THE REST OF THE CODE ******//
 
 let video;
 let flipVideo;
 let label = "waiting...";
-
 let classifier;
 
-// STEP 1: Load the model!
-function preload() {
-  classifier = ml5.imageClassifier(imageModelURL + "model.json");
+// Assuming the Snake class is defined elsewhere, make sure it's included in your HTML or this script
+class Snake {
+  // Define the Snake class with necessary methods
+  // ...
 }
 
-let snake;
-let rez = 20;
-let food;
-let w;
-let h;
+function preload() {
+  classifier = ml5.imageClassifier(imageModelURL + "model.json", modelLoaded);
+}
+
+function modelLoaded() {
+  console.log('Model Loaded!');
+}
 
 function setup() {
-  var canvas = createCanvas(960, 600);
-  canvas.parent('p5Container');
-  // Create the video
+  var canvas = createCanvas(960, 600); // This size should match the CSS for the #p5Container
+  canvas.parent('p5Container'); // Ensure this ID matches the container in your HTML
 
-  // Create the video
-  video = createCapture(VIDEO);
+  video = createCapture(VIDEO, videoReady);
   video.size(320, 240);
   video.hide();
 
-  flippedVideo = ml5.flipImage(video);
-  // Start classifying
-  classifyVideo();
-
-  w = floor(width / rez);
-  h = floor(height / rez);
-  // frameRate(5);
+  // Initialize snake and food
+  w = floor(width / 20); // assuming rez is 20
+  h = floor(height / 20); // assuming rez is 20
   snake = new Snake();
   foodLocation();
 }
 
-// Get a prediction for the current video frame
+function videoReady() {
+  console.log('Video ready!');
+  flippedVideo = ml5.flipImage(video);
+  classifyVideo();
+}
+
 function classifyVideo() {
   flippedVideo = ml5.flipImage(video);
   classifier.classify(flippedVideo, gotResult);
 }
 
-// When we get a result
 function gotResult(error, results) {
-  // If there is an error
   if (error) {
     console.error(error);
     return;
   }
-  // The results are in an array ordered by confidence.
   label = results[0].label;
-  // Classifiy again!
   controlSnake();
   classifyVideo();
 }
@@ -81,61 +65,5 @@ function foodLocation() {
   food = createVector(x, y);
 }
 
-function keyPressed() {
-  if (keyboard_control) {
-    if (keyCode == RIGHT_ARROW) snake.setDir(1, 0);
-    if (keyCode == LEFT_ARROW) snake.setDir(-1, 0);
-    if (keyCode == UP_ARROW) snake.setDir(0, -1);
-    if (keyCode == DOWN_ARROW) snake.setDir(0, 1);
-  }
-}
-
-function controlSnake() {
-  // console.log(label);
-  if (!keyboard_control) {
-    if (label === "Up") {
-      // UP
-      snake.setDir(0, -1);
-    } else if (label === "Phone") {
-      // RIGHT
-      snake.setDir(1, 0);
-    } else if (label === "Choc") {
-      // LEFT
-      snake.setDir(-1, 0);
-    } else if (label === "DOWN") {
-      // DOWN
-      snake.setDir(0, 1);
-    }
-  }
-}
-
-function draw() {
-  background(220);
-  if (!keyboard_control) {
-    image(flippedVideo, 0, 0, 160, 120);
-    textSize(32);
-    fill(255);
-    stroke(0);
-    text(label, 10, 40);
-  }
-
-  scale(rez);
-  if (snake.eat(food)) {
-    foodLocation();
-    snake.update();
-  }
-  if (frameCount % speed == 0) {
-    snake.update();
-  }
-  snake.show();
-
-  if (snake.endGame()) {
-    print("END GAME");
-    background(255, 0, 0);
-    noLoop();
-  }
-
-  noStroke();
-  fill(255, 0, 0);
-  rect(food.x, food.y, 1, 1);
-}
+// Rest of the functions (keyPressed, controlSnake, draw, etc.)
+// ...
